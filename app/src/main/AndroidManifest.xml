@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Chapterone" >
+        <!-- 活动注册 -->
+        <activity
+            android:name="com.project.chapter_one.HelloWorldActivity"
+            android:exported="true">
+            <!-- 从 Android 12 开始，android:exported 属性是必需的。
+            这个属性用于控制组件（如 Activity、Service、Broadcast Receiver 等）是否可以被其他应用访问。
+            对于启动器（Launcher）活动，android:exported 应该设置为 true，
+            因为启动器活动需要被系统启动器访问。 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
