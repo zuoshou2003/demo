@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.project.chapter_two">
 
     <application
@@ -12,7 +13,18 @@
 
         <activity android:name=".FirstActivity"
             android:exported="true"
-            android:label="This is FirstActivity">
+            android:label="This is FirstActivity"
+            android:launchMode="singleTop"
+            >
+
+            <!-- 上方launchMode选择 standard 直接创建新的活动；问题：在返回栈顶，启动时还会创建新的活动实例 -->
+            <!-- First - First - First Back键返回时  First - Second - First -->
+            <!-- 上方launchMode选择 singleTop 在返回栈顶时，不会创建新的活动实例，不在栈顶可以创建  -->
+            <!-- First - Second - First Back键返回时  First - Second - First -->
+            <!-- 上方launchMode选择 singleTask 创建时，先检查栈，无实例创建，有则把活动上方活动出栈-->
+            <!-- First - Second - First 在Second活动添加onDestory方法会调用，First活动或调用onRestart -->
+            <!-- 上方launchMode选择 singleInstance 与singleTask区别是会创建单独的返回栈来管理活动 -->
+            <!-- 用于程序中部分活动化与许其他程序调用 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,6 +40,16 @@
                 <!-- category标签 活动可响应的Intent可能带有的category  -->
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.MY_CATEGORY"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ThirdActivity"
+            android:exported="true">
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <!-- data标签 活动可响应网页的Intent  -->
+                <data android:scheme="http"/>
             </intent-filter>
         </activity>
 

@@ -3,6 +3,7 @@ package com.project.chapter_two;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -10,14 +11,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class FirstActivity extends AppCompatActivity {
+import java.security.PrivateKey;
+
+public class FirstActivity extends BaseActivity {
+	private String TAG = "FirstActivity";
 	private Button mButton1;
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.first_layout);
+		//用于测试活动启动模式
+		Log.d(TAG, "onCreate: ");
 		initview();
 	}
 
@@ -56,25 +61,47 @@ public class FirstActivity extends AppCompatActivity {
 
 			//显示intent  intent构造之一 context class
 //			Intent intent = new Intent(this, SecondActivity.class);
-//			startActivity(intent);
+
 
 			//隐式intent intent构造 action
 //			Intent intent = new Intent("android.intent.action.ACTION_START");
 			//SecondActivity的category为默认，自动添加到intent中
-//			startActivity(intent);
+
 
 			//每个intent只能指定一个action，却能指定多个category
 //			Intent intent = new Intent("android.intent.action.ACTION_START");
 			//不使用默认category
 //			intent.addCategory("android.intent.category.MY_CATEGORY");
-//			startActivity(intent);
+
 
 			//利用intent多应用功能共享
-			Intent intent = new Intent(Intent.ACTION_VIEW);
+//			Intent intent = new Intent(Intent.ACTION_VIEW);
 			//Uri.parse 网址解析网址字符串到Uri对象。setData传递对象
-			intent.setData(Uri.parse("https://www.baidu.com"));
-			startActivity(intent);
-        });
+//			intent.setData(Uri.parse("https://www.baidu.com"));
 
+
+
+			//向下一个活动传递数据
+			String data = "Hello SecondActivity";
+			Intent intent = new Intent(this, SecondActivity.class);
+			intent.putExtra("extra_data", data);
+//			startActivity(intent);
+			//返回数据给上一个活动
+			//startActivityForResult 入参 intent 和 唯一识别码
+			startActivityForResult(intent, 1);
+        });
+	}
+
+	//SecondActivity活动点击按钮返回的处理
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+			case 1:
+				if (resultCode == RESULT_OK){
+					String retrunedData = data.getStringExtra("data_return");
+					Log.d(TAG, retrunedData);
+				}
+		}
 	}
 }
